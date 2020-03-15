@@ -4,6 +4,14 @@
     <div>
       <router-view />
     </div>
+    <div class="product">
+      <div class="product-image">
+        <img :src="image" />
+      </div>
+      <div class="product-info">
+        <h1>{{ product }}</h1>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,7 +21,10 @@ import NavbarComponent from "./components/NavbarComponent";
 export default {
   name: "App",
   data() {
-    return {};
+    return {
+      product: "Shirt",
+      image: "./assets/stopped-coding-tee-shirt.jpg"
+    };
   },
   components: {
     NavbarComponent
