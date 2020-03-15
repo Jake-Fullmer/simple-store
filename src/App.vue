@@ -1,33 +1,14 @@
 <template>
   <div id="app">
-    <navbar-component />
-    <div>
-      <router-view />
-    </div>
-    <div class="product">
-      <div class="product-image">
-        <img :src="image" />
-      </div>
-      <div class="product-info">
-        <h1>{{ product }}</h1>
-      </div>
-    </div>
+    <home />
   </div>
 </template>
 
 <script>
-import NavbarComponent from "./components/NavbarComponent";
-
+import Home from "./views/Home";
 export default {
-  name: "App",
-  data() {
-    return {
-      product: "Shirt",
-      image: "./assets/stopped-coding-tee-shirt.jpg"
-    };
-  },
   components: {
-    NavbarComponent
+    Home
   }
 };
 </script>
