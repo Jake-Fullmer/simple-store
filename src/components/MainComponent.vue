@@ -23,12 +23,12 @@
           </div>
           <div class="product-info">
             <h3>{{ title }}</h3>
-            <p v-if="inventory > 10">In Stock</p>
-            <p
+            <p v-if="inStock">In Stock</p>
+            <!-- <p
               class="low-supply"
               v-else-if="inventory <= 10 && inventory > 0"
-            >Order Soon! Only {{inventory}} Remaining</p>
-            <p v-else :class="{ line: !inStock }">Out of Stock</p>
+            >Order Soon! Only {{inventory}} Remaining</p>-->
+            <p v-else :class="{ line: !inStock }">In Stock</p>
           </div>
           <ul class="list">
             <li v-for="detail in details" :key="detail">{{ detail }}</li>
@@ -69,7 +69,7 @@ export default {
       product: "Coffee into Code Tee",
       // image: black,
       selectedVariant: 0,
-      inventory: 0,
+      // inventory: 0,
       onSale: true,
       details: ["50% Cotton", "50% Polyester"],
       variants: [
