@@ -28,7 +28,8 @@
               class="low-supply"
               v-else-if="inventory <= 10 && inventory > 0"
             >Order Soon! Only {{inventory}} Remaining</p>-->
-            <p v-else :class="{ line: !inStock }">In Stock</p>
+            <p v-else :class="{ line: !inStock }">Out of Stock</p>
+            <p>Shipping: {{ shipping }}</p>
           </div>
           <ul class="list">
             <li v-for="detail in details" :key="detail">{{ detail }}</li>
@@ -67,11 +68,10 @@ export default {
     return {
       brand: "The Tee Co",
       product: "Coffee into Code Tee",
-      // image: black,
       selectedVariant: 0,
-      // inventory: 0,
       onSale: true,
       details: ["50% Cotton", "50% Polyester"],
+      premium: true,
       variants: [
         {
           variantId: 6881,
@@ -122,6 +122,12 @@ export default {
     },
     inStock() {
       return this.variants[this.selectedVariant].variantQuantity;
+    },
+    shipping() {
+      if (this.premium) {
+        return "Free";
+      }
+      return "$2.99";
     }
   }
 };
