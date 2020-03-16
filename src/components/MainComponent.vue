@@ -7,10 +7,12 @@
             <img class="image-size" :src="image" />
             <hr class="hr" />
             <div class="row justify-content-center">
-              <div v-for="variant in variants" :key="variant.variantId">
-                <p @mouseover="updateProduct(variant.variantImg)">
-                  <img class="image-size-alt" :src="variant.variantImg" />
-                </p>
+              <div v-for="(variant, index) in variants" :key="variant.variantId">
+                <img
+                  class="image-size-alt"
+                  :src="variant.variantImg"
+                  @mouseover="updateProduct(index)"
+                />
               </div>
             </div>
           </div>
@@ -20,18 +22,23 @@
             <p v-if="onSale" class="on-sale">On Sale Now!</p>
           </div>
           <div class="product-info">
-            <h3>{{ product }}</h3>
+            <h3>{{ title }}</h3>
             <p v-if="inventory > 10">In Stock</p>
             <p
               class="low-supply"
               v-else-if="inventory <= 10 && inventory > 0"
             >Order Soon! Only {{inventory}} Remaining</p>
-            <p v-else>Out of Stock</p>
+            <p v-else :class="{ line: !inStock }">Out of Stock</p>
           </div>
-          <ul>
+          <ul class="list">
             <li v-for="detail in details" :key="detail">{{ detail }}</li>
           </ul>
-          <button @click="addToCart" class="btn btn-outline-success btn-sm">Add to Cart</button>
+          <button
+            @click="addToCart"
+            :disabled="!inStock"
+            :class="{ disabledButton: !inStock }"
+            class="btn btn-outline-success btn-sm"
+          >Add to Cart</button>
           <button @click="decrementCart" class="btn btn-outline-danger btn-sm ml-1">X</button>
           <div class="cart">
             <p>Cart ({{ cart }})</p>
@@ -58,31 +65,37 @@ export default {
   name: "App",
   data() {
     return {
+      brand: "The Tee Co",
       product: "Coffee into Code Tee",
-      image: black,
-      inventory: 7,
+      // image: black,
+      selectedVariant: 0,
+      inventory: 0,
       onSale: true,
       details: ["50% Cotton", "50% Polyester"],
       variants: [
         {
           variantId: 6881,
           variantColor: "Black",
-          variantImg: black
+          variantImg: black,
+          variantQuantity: 7
         },
         {
           variantId: 6882,
           variantColor: "Blue",
-          variantImg: blue
+          variantImg: blue,
+          variantQuantity: 11
         },
         {
           variantId: 6884,
           variantColor: "White",
-          variantImg: white
+          variantImg: white,
+          variantQuantity: 0
         },
         {
           variantId: 6883,
           variantColor: "Green",
-          variantImg: green
+          variantImg: green,
+          variantQuantity: 15
         }
       ],
       sizes: ["XXL", "XL", "L", "M", "S"],
@@ -96,8 +109,19 @@ export default {
     decrementCart() {
       this.cart -= 1;
     },
-    updateProduct(variantImg) {
-      this.image = variantImg;
+    updateProduct(index) {
+      this.selectedVariant = index;
+    }
+  },
+  computed: {
+    title() {
+      return this.brand + " " + this.product;
+    },
+    image() {
+      return this.variants[this.selectedVariant].variantImg;
+    },
+    inStock() {
+      return this.variants[this.selectedVariant].variantQuantity;
     }
   }
 };
@@ -134,6 +158,16 @@ export default {
 }
 hr.hr {
   border: 0.2px solid gray;
+}
+.list {
+  // display: flex;
+  text-align: left;
+}
+.disabledButton {
+  background-color: rgb(22, 0, 0) !important;
+}
+.line {
+  text-decoration: line-through;
 }
 </style>
 
